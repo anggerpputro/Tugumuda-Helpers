@@ -2,7 +2,10 @@
 
 namespace Tugumuda\Helpers;
 
+use Collective\Html\HtmlBuilder;
 use Collective\Html\FormBuilder;
+use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Contracts\View\Factory;
 
 /**
  * Class helpers khusus untuk cetak Form with Bootstrap
@@ -21,10 +24,10 @@ class BootstrapFormBuilder
      * @param  \Illuminate\Contracts\View\Factory         $view
      * @param  string                                     $csrfToken
      */
-	public function __construct(HtmlBuilder $html, UrlGenerator $url, Factory $view, $csrfToken, Request $request = null)
+	public function __construct(HtmlBuilder $html, UrlGenerator $url, Factory $view, $csrfToken, Request $request = null, $sessionStore)
 	{
 		$this->formBuilder = new FormBuilder($html, $url, $view, $csrfToken, $request);
-		$this->formBuilder->setSessionStore($csrfToken);
+		$this->formBuilder->setSessionStore($sessionStore);
 	}
 
 	/**
@@ -302,18 +305,18 @@ class BootstrapFormBuilder
 	/**
 	 * Magic method untuk meneruskan static call ke \Form
 	 */
-	public static function __callStatic($name, $arguments)
+	public static function __call($name, $arguments)
 	{
 		// check apakah method yang di call ada di class ini
 		if(method_exists(__CLASS__, $name))
 		{
 			// jika ada call method tsb
-			return call_user_func_array("$name", $arguments);
+			return call_user_func_array($name, $arguments);
 		}
 		else
 		{
 			// jika tidak ada call method yang ada di \Form
-			return call_user_func_array("$this->formGroup->$name", $arguments);
+			return call_user_func_array('$this->formGroup->'.$name, $arguments);
 		}
 	}
 }

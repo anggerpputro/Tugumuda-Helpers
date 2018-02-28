@@ -21,7 +21,8 @@ Laravel 5.5 uses Package Auto-Discovery, so doesn't require you to manually add 
 If you don't use auto-discovery, add the ServiceProvider to the providers array in config/app.php
 
 ```php
-Tugumuda\Helpers\HelpersServiceProvider::class,
+Collective\Html\HtmlServiceProvider::class,
+Tugumuda\Helpers\ServiceProvider::class,
 ```
 
 If you want to use the facade, add this to your facades in app.php:

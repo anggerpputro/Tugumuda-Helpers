@@ -52,7 +52,7 @@ class ServiceProvider extends BaseServiceProvider
 	protected function registerBootstrapFormBuilder()
 	{
 		$this->app->singleton('BSForm', function ($app) {
-            return new BootstrapFormBuilder($app['html'], $app['url'], $app['view'], $app['session.store']->token(), $app['request']);
+            return new BootstrapFormBuilder($app['html'], $app['url'], $app['view'], $app['session.store']->token(), $app['request'], $app['session.store']);
         });
 	}
 
