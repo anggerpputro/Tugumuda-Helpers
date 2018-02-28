@@ -12,13 +12,13 @@
     ],
 	"require": {
 		"php": "^5.5.9 || ^7.0",
-		"laravel/laravel": ">=5.0.*",
-        "laravelcollective/html": ">=5.1"
+		"laravel/laravel": "^5.0",
+        "laravelcollective/html": "^5.1"
     },
 	"autoload": {
         "psr-4": {
             "Tugumuda\\Helpers\\": "src/"
-        },
+        }
     },
 	"extra": {
 		"laravel": {
@@ -28,10 +28,10 @@
 			"aliases": {
 				"BSForm": "Tugumuda\\Helpers\\Facades\\BSFormFacade",
 				"TMFormatter": "Tugumuda\\Helpers\\Facades\\FormatterFacade",
-				"TMConverter": "Tugumuda\\Helpers\\Facades\\ConverterFacade",
+				"TMConverter": "Tugumuda\\Helpers\\Facades\\ConverterFacade"
 			}
 		}
 	},
 	"minimum-stability": "stable",
-	"prefer-stable": true,
+	"prefer-stable": true
 }
