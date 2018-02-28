@@ -2,7 +2,9 @@
 
 namespace Tugumuda\Helpers;
 
+use Collective\Html\HtmlBuilder;
 use Collective\Html\FormBuilder;
+use Illuminate\Contracts\Routing\UrlGenerator;
 
 /**
  * Class helpers khusus untuk cetak Form with Bootstrap
@@ -10,6 +12,25 @@ use Collective\Html\FormBuilder;
  */
 class BootstrapFormBuilder extends FormBuilder
 {
+
+	protected $formBuilder;
+
+	/**
+     * Create a new form builder instance.
+     *
+     * @param  \Illuminate\Contracts\Routing\UrlGenerator $url
+     * @param  \Collective\Html\HtmlBuilder     $html
+     * @param  string                           $csrfToken
+	 * @param  string                           $sessionStore
+     *
+     * @return void
+     */
+    public function __construct(HtmlBuilder $html, UrlGenerator $url, $csrfToken, $sessionStore)
+    {
+		$this->formBuilder = new FormBuilder($html, $url, $csrfToken);
+
+		return $this->formBuilder->setSessionStore($sessionStore);
+    }
 
 	/**
 	 * Class untuk add default attributes form bootstrap
@@ -94,7 +115,7 @@ class BootstrapFormBuilder extends FormBuilder
 			$options['class'] .= ' control-label';
 		}
 
-        return parent::label($name, $value, $this->addID($name.'_label', $options));
+        return $this->formBuilder->label($name, $value, $this->addID($name.'_label', $options));
     }
 
 	/**
@@ -108,7 +129,7 @@ class BootstrapFormBuilder extends FormBuilder
      */
 	public function text($name, $value = null, $attributes = [], $validation = [])
 	{
-		return parent::text($name, $value, $this->addDefaultAttributes($this->addID($name, $attributes), $validation));
+		return $this->formBuilder->text($name, $value, $this->addDefaultAttributes($this->addID($name, $attributes), $validation));
 	}
 
 	/**
@@ -197,7 +218,7 @@ class BootstrapFormBuilder extends FormBuilder
     public function textarea($name, $value = null, $options = [], $validation = [])
     {
 		$options['rows'] = '3';
-		return parent::textarea($name, $value, $this->addDefaultAttributes($this->addID($name, $options), $validation));
+		return $this->formBuilder->textarea($name, $value, $this->addDefaultAttributes($this->addID($name, $options), $validation));
     }
 
 	/**
@@ -269,7 +290,7 @@ class BootstrapFormBuilder extends FormBuilder
      */
     public function select($name, $list = [], $selected = null, $options = [], $validation = [])
 	{
-		$select  = parent::select($name, $list, $selected, $this->addDefaultAttributes($this->addID($name, $options), $validation));
+		$select  = $this->formBuilder->select($name, $list, $selected, $this->addDefaultAttributes($this->addID($name, $options), $validation));
 		$select .= '<script> $("#'.$name.'").select2(); </script>';
 		return $select;
 	}
@@ -277,18 +298,18 @@ class BootstrapFormBuilder extends FormBuilder
 	/**
 	 * Magic method untuk meneruskan static call ke \Form
 	 */
-	/*public static function __callStatic($name, $arguments)
+	public static function __call($name, $arguments)
 	{
 		// check apakah method yang di call ada di class ini
 		if(method_exists(__CLASS__, $name))
 		{
 			// jika ada call method tsb
-			return call_user_func_array("static::$name", $arguments);
+			return call_user_func_array($name, $arguments);
 		}
 		else
 		{
 			// jika tidak ada call method yang ada di \Form
-			return call_user_func_array("\Form::$name", $arguments);
+			return call_user_func_array('$this->formBuilder->'.$name, $arguments);
 		}
-	}*/
+	}
 }

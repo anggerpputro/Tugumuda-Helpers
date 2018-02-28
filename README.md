@@ -15,7 +15,8 @@ composer require tugumuda/helpers
 ### Laravel 5.1+:
 
 ```php
-Tugumuda\Helpers\HelpersServiceProvider::class,
+Collective\Html\HtmlServiceProvider::class,
+Tugumuda\Helpers\ServiceProvider::class,
 ```
 
 If you want to use the facade, add this to your facades in app.php:
