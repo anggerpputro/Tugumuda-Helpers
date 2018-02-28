@@ -114,7 +114,7 @@ class BootstrapFormBuilder
 			$options['class'] .= ' control-label';
 		}
 
-        return $this->formGroup->label($name, $value, $this->addID($name.'_label', $options), $escape_html);
+        return $this->formBuilder->label($name, $value, $this->addID($name.'_label', $options), $escape_html);
     }
 
 	/**
@@ -128,7 +128,7 @@ class BootstrapFormBuilder
      */
 	public function text($name, $value = null, $attributes = [], $validation = [])
 	{
-		return $this->formGroup->text($name, $value, $this->addDefaultAttributes($this->addID($name, $attributes), $validation));
+		return $this->formBuilder->text($name, $value, $this->addDefaultAttributes($this->addID($name, $attributes), $validation));
 	}
 
 	/**
@@ -217,7 +217,7 @@ class BootstrapFormBuilder
     public function textarea($name, $value = null, $options = [], $validation = [])
     {
 		$options['rows'] = '3';
-		return $this->formGroup->textarea($name, $value, $this->addDefaultAttributes($this->addID($name, $options), $validation));
+		return $this->formBuilder->textarea($name, $value, $this->addDefaultAttributes($this->addID($name, $options), $validation));
     }
 
 	/**
@@ -298,7 +298,7 @@ class BootstrapFormBuilder
          array $optgroupsAttributes = [],
 		 $validation = []
      ) {
-		$select  = $this->formGroup->select($name, $list, $selected, $selectAttributes, $this->addDefaultAttributes($this->addID($name, $options), $validation), $optgroupsAttributes);
+		$select  = $this->formBuilder->select($name, $list, $selected, $selectAttributes, $this->addDefaultAttributes($this->addID($name, $options), $validation), $optgroupsAttributes);
 		$select .= '<script> $("#'.$name.'").select2(); </script>';
 		return $select;
 	}
@@ -317,7 +317,7 @@ class BootstrapFormBuilder
 		else
 		{
 			// jika tidak ada call method yang ada di \Form
-			return call_user_func_array('$this->formGroup->'.$name, $arguments);
+			return call_user_func_array(array($this->formBuilder, $name), $arguments);
 		}
 	}
 }
