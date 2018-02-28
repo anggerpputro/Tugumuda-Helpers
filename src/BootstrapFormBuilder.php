@@ -224,6 +224,15 @@ class BootstrapFormBuilder extends FormBuilder
 		);
 	}
 
+	public function date_picker($id = 'asa',$value="")
+	{
+		return '<script>'
+				.'$(document).ready(function(){'
+					.'$(".tgl").datetimepicker({format: "YYYY-MM-DD"});'
+			.'})</script>'
+		.'<input type="text" class="form-control tgl" value="'.$value.'" id="'.$id.'" name="'.$id.'"  placeholder="Masukkan Tanggal">';
+	}
+
 	/**
      * Create a date picker form-group input field.
      *
@@ -242,7 +251,7 @@ class BootstrapFormBuilder extends FormBuilder
 		return $this->makeGroup(
 			$name,
 			$label,
-			date_picker($name, $value),
+			$this->date_picker($name, $value),
 			$l_width,
 			$i_width
 		);
