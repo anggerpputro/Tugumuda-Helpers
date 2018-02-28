@@ -2,9 +2,9 @@
 
 namespace Tugumuda\Helpers;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
-class HelpersServiceProvider extends ServiceProvider
+class ServiceProvider extends BaseServiceProvider
 {
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -52,7 +52,7 @@ class HelpersServiceProvider extends ServiceProvider
 	protected function registerBootstrapFormBuilder()
 	{
 		$this->app->singleton('BSForm', function ($app) {
-            return new BootstrapFormBuilder();
+            return new BootstrapFormBuilder($app['html'], $app['url'], $app['view'], $app['session.store']->token(), $app['request']);
         });
 	}
 

@@ -14,6 +14,8 @@ composer require tugumuda/helpers
 
 Laravel 5.5 uses Package Auto-Discovery, so doesn't require you to manually add the ServiceProvider.
 
+### For Laravel < 5.5, please use the 5.1 branch!
+
 ### Laravel 5.5+:
 
 If you don't use auto-discovery, add the ServiceProvider to the providers array in config/app.php

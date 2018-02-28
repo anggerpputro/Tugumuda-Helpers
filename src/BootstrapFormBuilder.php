@@ -8,8 +8,24 @@ use Collective\Html\FormBuilder;
  * Class helpers khusus untuk cetak Form with Bootstrap
  * class ini mengembangkan LaravelCollective\FormBuilder
  */
-class BootstrapFormBuilder extends FormBuilder
+class BootstrapFormBuilder
 {
+
+	protected $formBuilder;
+
+	/**
+     * Create a new form builder instance.
+     *
+     * @param  \Collective\Html\HtmlBuilder               $html
+     * @param  \Illuminate\Contracts\Routing\UrlGenerator $url
+     * @param  \Illuminate\Contracts\View\Factory         $view
+     * @param  string                                     $csrfToken
+     */
+	public function __construct(HtmlBuilder $html, UrlGenerator $url, Factory $view, $csrfToken, Request $request = null)
+	{
+		$this->formBuilder = new FormBuilder($html, $url, $view, $csrfToken, $request);
+		$this->formBuilder->setSessionStore($csrfToken);
+	}
 
 	/**
 	 * Class untuk add default attributes form bootstrap
@@ -87,14 +103,14 @@ class BootstrapFormBuilder extends FormBuilder
      *
      * @return string
      */
-    public function label($name, $value = null, $options = [])
+    public function label($name, $value = null, $options = [], $escape_html = true)
     {
 		if(isset($options['class']))
 		{
 			$options['class'] .= ' control-label';
 		}
 
-        return parent::label($name, $value, $this->addID($name.'_label', $options));
+        return $this->formGroup->label($name, $value, $this->addID($name.'_label', $options), $escape_html);
     }
 
 	/**
@@ -108,7 +124,7 @@ class BootstrapFormBuilder extends FormBuilder
      */
 	public function text($name, $value = null, $attributes = [], $validation = [])
 	{
-		return parent::text($name, $value, $this->addDefaultAttributes($this->addID($name, $attributes), $validation));
+		return $this->formGroup->text($name, $value, $this->addDefaultAttributes($this->addID($name, $attributes), $validation));
 	}
 
 	/**
@@ -197,7 +213,7 @@ class BootstrapFormBuilder extends FormBuilder
     public function textarea($name, $value = null, $options = [], $validation = [])
     {
 		$options['rows'] = '3';
-		return parent::textarea($name, $value, $this->addDefaultAttributes($this->addID($name, $options), $validation));
+		return $this->formGroup->textarea($name, $value, $this->addDefaultAttributes($this->addID($name, $options), $validation));
     }
 
 	/**
@@ -257,19 +273,28 @@ class BootstrapFormBuilder extends FormBuilder
 		);
 	}
 
-	/**
-     * Create a select box field.
-     *
-     * @param  string $name
-     * @param  array  $list
-     * @param  string $selected
-     * @param  array  $options
-     *
-     * @return string
-     */
-    public function select($name, $list = [], $selected = null, $options = [], $validation = [])
-	{
-		$select  = parent::select($name, $list, $selected, $this->addDefaultAttributes($this->addID($name, $options), $validation));
+	 /**
+      * Create a select box field.
+      *
+      * @param  string $name
+      * @param  array  $list
+      * @param  string|bool $selected
+      * @param  array  $selectAttributes
+      * @param  array  $optionsAttributes
+      * @param  array  $optgroupsAttributes
+      *
+      * @return \Illuminate\Support\HtmlString
+      */
+     public function select(
+         $name,
+         $list = [],
+         $selected = null,
+         array $selectAttributes = [],
+         array $optionsAttributes = [],
+         array $optgroupsAttributes = [],
+		 $validation = []
+     ) {
+		$select  = $this->formGroup->select($name, $list, $selected, $selectAttributes, $this->addDefaultAttributes($this->addID($name, $options), $validation), $optgroupsAttributes);
 		$select .= '<script> $("#'.$name.'").select2(); </script>';
 		return $select;
 	}
@@ -277,18 +302,18 @@ class BootstrapFormBuilder extends FormBuilder
 	/**
 	 * Magic method untuk meneruskan static call ke \Form
 	 */
-	/*public static function __callStatic($name, $arguments)
+	public static function __callStatic($name, $arguments)
 	{
 		// check apakah method yang di call ada di class ini
 		if(method_exists(__CLASS__, $name))
 		{
 			// jika ada call method tsb
-			return call_user_func_array("static::$name", $arguments);
+			return call_user_func_array("$name", $arguments);
 		}
 		else
 		{
 			// jika tidak ada call method yang ada di \Form
-			return call_user_func_array("\Form::$name", $arguments);
+			return call_user_func_array("$this->formGroup->$name", $arguments);
 		}
-	}*/
+	}
 }
