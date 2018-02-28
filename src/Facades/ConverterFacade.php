@@ -1,6 +1,6 @@
 <?php
 
-namespace Tugumuda\Helpers;
+namespace Tugumuda\Helpers\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
