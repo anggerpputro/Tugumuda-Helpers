@@ -29,3 +29,21 @@ If you want to use the facade, add this to your facades in app.php:
 'TMFormatter' => Tugumuda\Helpers\FormatterFacade::class,
 'TMConverter' => Tugumuda\Helpers\ConverterFacade::class,
 ```
+
+## Usage
+
+You can now add messages using the Facade (when added):
+
+### BSForm
+```php
+BSForm::label('fullname', 'Fullname:');
+BSForm::text('fullname', 'Angger Priyardhan Putro');
+
+BSForm::textGroup('fullname', 'Fullname:', 'Angger Priyardhan Putro');
+```
+
+### Converter
+```php
+TMConverter::int2money('100000');
+TMConverter::array2object(['name' => 'Angger', 'email' => 'anggerpputro@gmail.com']);
+```
