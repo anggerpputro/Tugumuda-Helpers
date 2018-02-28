@@ -305,7 +305,7 @@ class BootstrapFormBuilder
 	/**
 	 * Magic method untuk meneruskan static call ke \Form
 	 */
-	public static function __call($name, $arguments)
+	public function __call($name, $arguments)
 	{
 		// check apakah method yang di call ada di class ini
 		if(method_exists(__CLASS__, $name))
