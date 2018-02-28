@@ -3,14 +3,32 @@
     "description": "Kumpulan laravel helpers",
 	"license": "MIT",
     "type": "library",
-    "require": {
-        "laravelcollective/html": "^5.6"
-    },
     "authors": [
         {
             "name": "Angger Priyardhan Putro",
             "email": "anggerpputro@gmail.com"
         }
     ],
-    "minimum-stability": "dev"
+	"require": {
+        "laravelcollective/html": "^5.6"
+    },
+	"autoload": {
+        "psr-4": {
+            "Tugumuda\\Helpers\\": "src/"
+        },
+    },
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Tugumuda\\Helpers\\HelpersServiceProvider"
+			],
+			"aliases": {
+				"BSForm": "Tugumuda\\Helpers\\Facades\\BSFormFacade",
+				"TMFormatter": "Tugumuda\\Helpers\\Facades\\FormatterFacade",
+				"TMConverter": "Tugumuda\\Helpers\\Facades\\ConverterFacade",
+			}
+		}
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
 }

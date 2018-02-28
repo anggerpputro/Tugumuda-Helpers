@@ -25,9 +25,9 @@ Tugumuda\Helpers\HelpersServiceProvider::class,
 If you want to use the facade, add this to your facades in app.php:
 
 ```php
-'BSForm' => Tugumuda\Helpers\BSFormFacade::class,
-'TMFormatter' => Tugumuda\Helpers\FormatterFacade::class,
-'TMConverter' => Tugumuda\Helpers\ConverterFacade::class,
+'BSForm' => Tugumuda\Helpers\Facades\BSFormFacade::class,
+'TMFormatter' => Tugumuda\Helpers\Facades\FormatterFacade::class,
+'TMConverter' => Tugumuda\Helpers\Facades\ConverterFacade::class,
 ```
 
 ## Usage
