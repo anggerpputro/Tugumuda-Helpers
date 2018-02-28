@@ -23,7 +23,7 @@
 		"laravel": {
 			"providers": [
 				"Collective\\Html\\HtmlServiceProvider",
-				"Tugumuda\\Helpers\\HelpersServiceProvider"
+				"Tugumuda\\Helpers\\ServiceProvider"
 			],
 			"aliases": {
 				"BSForm": "Tugumuda\\Helpers\\Facades\\BSFormFacade",
