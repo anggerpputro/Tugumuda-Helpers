@@ -10,7 +10,7 @@ use Illuminate\Contracts\Routing\UrlGenerator;
  * Class helpers khusus untuk cetak Form with Bootstrap
  * class ini mengembangkan LaravelCollective\FormBuilder
  */
-class BootstrapFormBuilder extends FormBuilder
+class BootstrapFormBuilder
 {
 
 	protected $formBuilder;
@@ -309,7 +309,7 @@ class BootstrapFormBuilder extends FormBuilder
 		else
 		{
 			// jika tidak ada call method yang ada di \Form
-			return call_user_func_array('$this->formBuilder->'.$name, $arguments);
+			return call_user_func_array(array($this->formBuilder, $name), $arguments);
 		}
 	}
 }
