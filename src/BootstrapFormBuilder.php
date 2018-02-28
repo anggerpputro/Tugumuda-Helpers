@@ -10,44 +10,6 @@ use Collective\Html\FormBuilder;
  */
 class BootstrapFormBuilder extends FormBuilder
 {
-	public function money2int($string, $allow_negative = false)
-	{
-		if(is_null($string) OR $string == '' OR $string == '-')
-		{
-			return 0;
-		}
-
-		// check is it string and not numeric?
-		if( ! is_numeric($string))
-		{
-			// double check to make sure that the string contains rp (its mean money string)
-			if (stripos($string, 'Rp') !== FALSE)
-			{
-				if($allow_negative)
-				{
-					return preg_replace('/[^\d-]+/', '', $string);
-				}
-				else
-				{
-					return preg_replace('/[\D]+/', '', $string);
-				}
-			}
-		}
-
-		return $string;
-	}
-
-	public function int2money($number, $with_currency = true)
-	{
-		if( ! is_numeric($number)) {
-			$number = 0;
-		}
-		$return = number_format($number, 0, ',', '.');
-		if($with_currency) {
-			$return = 'Rp '.$return;
-		}
-		return $return;
-	}
 
 	/**
 	 * Class untuk add default attributes form bootstrap
