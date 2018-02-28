@@ -6,6 +6,7 @@ use Collective\Html\HtmlBuilder;
 use Collective\Html\FormBuilder;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\Request;
 
 /**
  * Class helpers khusus untuk cetak Form with Bootstrap
