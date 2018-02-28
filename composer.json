@@ -22,7 +22,8 @@
 	"extra": {
 		"laravel": {
 			"providers": [
-				"Tugumuda\\Helpers\\HelpersServiceProvider"
+				"Collective\\Html\\HtmlServiceProvider",
+				"Tugumuda\\Helpers\\ServiceProvider"
 			],
 			"aliases": {
 				"BSForm": "Tugumuda\\Helpers\\Facades\\BSFormFacade",
