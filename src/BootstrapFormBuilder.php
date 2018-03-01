@@ -157,6 +157,80 @@ class BootstrapFormBuilder
 	}
 
 	/**
+     * Create a password input field.
+     *
+     * @param  string $name
+     * @param  array  $options
+     *
+     * @return string
+     */
+    public function password($name, $options = [], $validation = [])
+    {
+		return $this->formBuilder->password($name, $this->addDefaultAttributes($this->addID($name, $options), $validation));
+    }
+
+	/**
+     * Create a password form-group input field.
+     *
+	 * @param string $name
+	 * @param string $label
+	 * @param string $l_width (label width) default: col-sm-3
+	 * @param string $i_width (input width) default: col-sm-7
+	 * @param array $l_attributes (additional label attributes) default: []
+	 * @param array $i_attributes (additional input attributes) default: []
+	 *
+     * @return string
+     */
+	public function passwordGroup($name, $label, $validation = [], $l_width = 'col-sm-3', $i_width = 'col-sm-7', $l_attributes = [], $i_attributes = [])
+	{
+		return $this->makeGroup(
+			$name,
+			$label,
+			$this->password($name, $i_attributes, $validation),
+			$l_width,
+			$i_width
+		);
+	}
+
+	/**
+     * Create an e-mail input field.
+     *
+     * @param  string $name
+     * @param  string $value
+     * @param  array  $options
+     *
+     * @return string
+     */
+    public function email($name, $value = null, $options = [], $validation = [])
+    {
+		return $this->formBuilder->email($name, $value, $this->addDefaultAttributes($this->addID($name, $attributes), $validation));
+    }
+
+	/**
+     * Create a email form-group input field.
+     *
+	 * @param string $name
+	 * @param string $label
+     * @param string $value
+	 * @param string $l_width (label width) default: col-sm-3
+	 * @param string $i_width (input width) default: col-sm-7
+	 * @param array $l_attributes (additional label attributes) default: []
+	 * @param array $i_attributes (additional input attributes) default: []
+	 *
+     * @return string
+     */
+	public function emailGroup($name, $label, $value = null, $validation = [], $l_width = 'col-sm-3', $i_width = 'col-sm-7', $l_attributes = [], $i_attributes = [])
+	{
+		return $this->makeGroup(
+			$name,
+			$label,
+			$this->email($name, $value, $i_attributes, $validation),
+			$l_width,
+			$i_width
+		);
+	}
+
+	/**
      * Create a money input field.
      *
      * @param  string $name
