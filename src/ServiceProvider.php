@@ -24,6 +24,11 @@ class ServiceProvider extends BaseServiceProvider
 		$this->publishes([
 	        __DIR__.'/views' => base_path('resources/views/tugumuda_helpers/timezones'),
 	    ]);*/
+		$config = include __DIR__.'/../config/config.php';
+
+		$this->publishes([
+			__DIR__.'/../assets' => $config['assets_path']
+		]);
     }
 
     /**
