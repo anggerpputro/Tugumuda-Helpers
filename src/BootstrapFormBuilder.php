@@ -369,6 +369,72 @@ class BootstrapFormBuilder
 		return $select;
 	}
 
+	protected function extractName($name_)
+	{
+		$name = $name_;
+		$label = $name;
+		if(is_array($name_))
+		{
+			$name = $name_[0];
+			$label = $name_[1];
+		}
+		return $name;
+	}
+
+	protected function capsulateCheckable($input, $name_)
+	{
+		$name = $name_;
+		$label = $name;
+		if(is_array($name_))
+		{
+			$name = $name_[0];
+			$label = $name_[1];
+		}
+		$checkable = '<div class="checkbox">';
+		$checkable .= 	'<label>';
+		$checkable .= 		$input;
+		$checkable .= 		$label;
+		$checkable .= 	'</label>';
+		$checkable .= '</div>';
+		return $checkable;
+	}
+
+	/**
+     * Create a checkbox input field.
+     *
+     * @param  mixed $name
+     * @param  mixed  $value
+     * @param  bool   $checked
+     * @param  array  $options
+     *
+     * @return string
+     */
+    public function checkbox($name_, $value = 1, $checked = null, $options = [])
+    {
+		return $this->capsulateCheckable(
+			$this->formBuilder->checkbox($this->extractName($name_), $value, $checked, $options),
+			$name_
+		);
+    }
+
+    /**
+     * Create a radio button input field.
+     *
+     * @param  mixed $name
+     * @param  mixed  $value
+     * @param  bool   $checked
+     * @param  array  $options
+     *
+     * @return string
+     */
+    public function radio($name_, $value = null, $checked = null, $options = [])
+    {
+		return $this->capsulateCheckable(
+			$this->formBuilder->radio($this->extractName($name_), $value, $checked, $options),
+			$name_
+		);
+    }
+
 	/**
 	 * Magic method untuk meneruskan static call ke \Form
 	 */
