@@ -381,7 +381,7 @@ class BootstrapFormBuilder
 		return $name;
 	}
 
-	protected function capsulateCheckable($input, $name_, $class)
+	protected function capsulateCheckable($input, $name_, $class, $inline = false)
 	{
 		$name = $name_;
 		$label = $name;
@@ -390,12 +390,24 @@ class BootstrapFormBuilder
 			$name = $name_[0];
 			$label = $name_[1];
 		}
-		$checkable = '<div class="'.$class.'">';
-		$checkable .= 	'<label>';
-		$checkable .= 		$input;
-		$checkable .= 		$label;
-		$checkable .= 	'</label>';
-		$checkable .= '</div>';
+
+		$checkable = '';
+		if($inline)
+		{
+			$checkable .= '<label class="'.$class.'-inline">';
+			$checkable .= 		$input;
+			$checkable .= 		$label;
+			$checkable .= '</label>';
+		}
+		else
+		{
+			$checkable .= '<div class="'.$class.'">';
+			$checkable .= 	'<label>';
+			$checkable .= 		$input;
+			$checkable .= 		$label;
+			$checkable .= 	'</label>';
+			$checkable .= '</div>';
+		}
 		return $checkable;
 	}
 
@@ -409,12 +421,13 @@ class BootstrapFormBuilder
      *
      * @return string
      */
-    public function checkbox($name_, $value = 1, $checked = null, $options = [])
+    public function checkbox($name_, $value = 1, $checked = null, $options = [], $inline = false)
     {
 		return $this->capsulateCheckable(
 			$this->formBuilder->checkbox($this->extractName($name_), $value, $checked, $options),
 			$name_,
-			'checkbox'
+			'checkbox',
+			$inline
 		);
     }
 
@@ -428,12 +441,13 @@ class BootstrapFormBuilder
      *
      * @return string
      */
-    public function radio($name_, $value = null, $checked = null, $options = [])
+    public function radio($name_, $value = null, $checked = null, $options = [], $inline = false)
     {
 		return $this->capsulateCheckable(
 			$this->formBuilder->radio($this->extractName($name_), $value, $checked, $options),
 			$name_,
-			'radio'
+			'radio',
+			$inline
 		);
     }
 
