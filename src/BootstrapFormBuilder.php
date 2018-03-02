@@ -203,7 +203,7 @@ class BootstrapFormBuilder
      */
     public function email($name, $value = null, $options = [], $validation = [])
     {
-		return $this->formBuilder->email($name, $value, $this->addDefaultAttributes($this->addID($name, $attributes), $validation));
+		return $this->formBuilder->email($name, $value, $this->addDefaultAttributes($this->addID($name, $options), $validation));
     }
 
 	/**
