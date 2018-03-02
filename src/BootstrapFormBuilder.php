@@ -381,7 +381,7 @@ class BootstrapFormBuilder
 		return $name;
 	}
 
-	protected function capsulateCheckable($input, $name_)
+	protected function capsulateCheckable($input, $name_, $class)
 	{
 		$name = $name_;
 		$label = $name;
@@ -390,7 +390,7 @@ class BootstrapFormBuilder
 			$name = $name_[0];
 			$label = $name_[1];
 		}
-		$checkable = '<div class="checkbox">';
+		$checkable = '<div class="'.$class.'">';
 		$checkable .= 	'<label>';
 		$checkable .= 		$input;
 		$checkable .= 		$label;
@@ -413,7 +413,8 @@ class BootstrapFormBuilder
     {
 		return $this->capsulateCheckable(
 			$this->formBuilder->checkbox($this->extractName($name_), $value, $checked, $options),
-			$name_
+			$name_,
+			'checkbox'
 		);
     }
 
@@ -431,7 +432,8 @@ class BootstrapFormBuilder
     {
 		return $this->capsulateCheckable(
 			$this->formBuilder->radio($this->extractName($name_), $value, $checked, $options),
-			$name_
+			$name_,
+			'radio'
 		);
     }
 
