@@ -1,0 +1,44 @@
+/*
+h1{
+  text-align:center;
+  text-transform:uppercase;
+}*/
+
+/*Table Theme*/ 
+  /*Bisa di hapus kalau sudah ada theme yang lain*/
+  .blue{
+    border:2px solid royalblue;
+  }
+
+  .blue thead{
+    background:royalblue;
+  }
+
+  .purple{
+    border:2px solid darkmagenta;
+  }
+
+  .purple thead{
+    background:darkmagenta;
+  }
+
+  thead{
+    color:white;
+  }
+/***********************************************/
+
+/*** Fixed Table Header ***/
+/*Paling penting*/
+  table.fixed{
+    top:40px;
+    position:fixed;
+    width:auto;
+    display:none;
+    border:none;
+  }
+/**************************/
+
+
+.up{
+  cursor:pointer;
+}

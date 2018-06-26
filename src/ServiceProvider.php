@@ -24,6 +24,11 @@ class ServiceProvider extends BaseServiceProvider
 		$this->publishes([
 	        __DIR__.'/views' => base_path('resources/views/tugumuda_helpers/timezones'),
 	    ]);*/
+		$config = include __DIR__.'/../config/config.php';
+
+		$this->publishes([
+			__DIR__.'/../assets' => $config['assets_path']
+		]);
     }
 
     /**
@@ -52,7 +57,11 @@ class ServiceProvider extends BaseServiceProvider
 	protected function registerBootstrapFormBuilder()
 	{
 		$this->app->singleton('BSForm', function ($app) {
+<<<<<<< HEAD:src/ServiceProvider.php
             return new BootstrapFormBuilder($app['html'], $app['url'], $app['view'], $app['session.store']->token(), $app['request'], $app['session.store']);
+=======
+            return new BootstrapFormBuilder($app['html'], $app['url'], $app['session.store']->getToken(), $app['session.store']);
+>>>>>>> 5.1:src/ServiceProvider.php
         });
 	}
 

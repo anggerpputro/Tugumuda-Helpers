@@ -5,8 +5,6 @@ namespace Tugumuda\Helpers;
 use Collective\Html\HtmlBuilder;
 use Collective\Html\FormBuilder;
 use Illuminate\Contracts\Routing\UrlGenerator;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\Request;
 
 /**
  * Class helpers khusus untuk cetak Form with Bootstrap
@@ -20,16 +18,19 @@ class BootstrapFormBuilder
 	/**
      * Create a new form builder instance.
      *
-     * @param  \Collective\Html\HtmlBuilder               $html
      * @param  \Illuminate\Contracts\Routing\UrlGenerator $url
-     * @param  \Illuminate\Contracts\View\Factory         $view
-     * @param  string                                     $csrfToken
+     * @param  \Collective\Html\HtmlBuilder     $html
+     * @param  string                           $csrfToken
+	 * @param  string                           $sessionStore
+     *
+     * @return void
      */
-	public function __construct(HtmlBuilder $html, UrlGenerator $url, Factory $view, $csrfToken, Request $request = null, $sessionStore)
-	{
-		$this->formBuilder = new FormBuilder($html, $url, $view, $csrfToken, $request);
-		$this->formBuilder->setSessionStore($sessionStore);
-	}
+    public function __construct(HtmlBuilder $html, UrlGenerator $url, $csrfToken, $sessionStore)
+    {
+		$this->formBuilder = new FormBuilder($html, $url, $csrfToken);
+
+		return $this->formBuilder->setSessionStore($sessionStore);
+    }
 
 	/**
 	 * Class untuk add default attributes form bootstrap
@@ -88,11 +89,48 @@ class BootstrapFormBuilder
 	 */
 	public function makeGroup($name, $label, $input, $l_width = 'col-sm-3', $i_width = 'col-sm-7')
 	{
-		$form_group = '<div class="form-group">';
+		$form_group = '<div class="form-group clearfix">';
 		$form_group 	.= $this->label($name, $label, array('class' => $l_width));
 		$form_group 	.= '<div class="'.$i_width.'">';
 		$form_group 		.= $input;
 		$form_group		.= '</div>';
+		$form_group .= '</div>';
+
+		return $form_group;
+	}
+
+	public function makeGroupArr($name, $label, $l_width, $arr_input = [])
+	{
+		// contoh arr_input
+		// $arr_input = [
+		// 	['col-sm-3', $this->text()]
+		// ];
+		$form_group = '<div class="form-group clearfix">';
+		$form_group 	.= $this->label($name, $label, array('class' => $l_width));
+		foreach($arr_input as $item) {
+			$width = $item[0];
+			$input = $item[1];
+
+			$form_group 	.= '<div class="'.$width.'">';
+			$form_group 		.= $input;
+			$form_group		.= '</div>';
+		}
+		$form_group .= '</div>';
+
+		return $form_group;
+	}
+
+	public function makeGroupAdv($arr_input = [])
+	{
+		$form_group = '<div class="form-group clearfix">';
+		foreach($arr_input as $item) {
+			$width = $item[0];
+			$input = $item[1];
+
+			$form_group 	.= '<div class="'.$width.'">';
+			$form_group 		.= $input;
+			$form_group		.= '</div>';
+		}
 		$form_group .= '</div>';
 
 		return $form_group;
@@ -114,7 +152,7 @@ class BootstrapFormBuilder
 			$options['class'] .= ' control-label';
 		}
 
-        return $this->formBuilder->label($name, $value, $this->addID($name.'_label', $options), $escape_html);
+        return $this->formBuilder->label($name, $value, $this->addID($name.'_label', $options));
     }
 
 	/**
@@ -150,6 +188,80 @@ class BootstrapFormBuilder
 			$name,
 			$label,
 			$this->text($name, $value, $i_attributes, $validation),
+			$l_width,
+			$i_width
+		);
+	}
+
+	/**
+     * Create a password input field.
+     *
+     * @param  string $name
+     * @param  array  $options
+     *
+     * @return string
+     */
+    public function password($name, $options = [], $validation = [])
+    {
+		return $this->formBuilder->password($name, $this->addDefaultAttributes($this->addID($name, $options), $validation));
+    }
+
+	/**
+     * Create a password form-group input field.
+     *
+	 * @param string $name
+	 * @param string $label
+	 * @param string $l_width (label width) default: col-sm-3
+	 * @param string $i_width (input width) default: col-sm-7
+	 * @param array $l_attributes (additional label attributes) default: []
+	 * @param array $i_attributes (additional input attributes) default: []
+	 *
+     * @return string
+     */
+	public function passwordGroup($name, $label, $validation = [], $l_width = 'col-sm-3', $i_width = 'col-sm-7', $l_attributes = [], $i_attributes = [])
+	{
+		return $this->makeGroup(
+			$name,
+			$label,
+			$this->password($name, $i_attributes, $validation),
+			$l_width,
+			$i_width
+		);
+	}
+
+	/**
+     * Create an e-mail input field.
+     *
+     * @param  string $name
+     * @param  string $value
+     * @param  array  $options
+     *
+     * @return string
+     */
+    public function email($name, $value = null, $options = [], $validation = [])
+    {
+		return $this->formBuilder->email($name, $value, $this->addDefaultAttributes($this->addID($name, $options), $validation));
+    }
+
+	/**
+     * Create a email form-group input field.
+     *
+	 * @param string $name
+	 * @param string $label
+     * @param string $value
+	 * @param string $l_width (label width) default: col-sm-3
+	 * @param string $i_width (input width) default: col-sm-7
+	 * @param array $l_attributes (additional label attributes) default: []
+	 * @param array $i_attributes (additional input attributes) default: []
+	 *
+     * @return string
+     */
+	public function emailGroup($name, $label, $value = null, $validation = [], $l_width = 'col-sm-3', $i_width = 'col-sm-7', $l_attributes = [], $i_attributes = [])
+	{
+		return $this->makeGroup(
+			$name,
+			$label,
+			$this->email($name, $value, $i_attributes, $validation),
 			$l_width,
 			$i_width
 		);
@@ -277,31 +389,124 @@ class BootstrapFormBuilder
 		);
 	}
 
-	 /**
-      * Create a select box field.
-      *
-      * @param  string $name
-      * @param  array  $list
-      * @param  string|bool $selected
-      * @param  array  $selectAttributes
-      * @param  array  $optionsAttributes
-      * @param  array  $optgroupsAttributes
-      *
-      * @return \Illuminate\Support\HtmlString
-      */
-     public function select(
-         $name,
-         $list = [],
-         $selected = null,
-         array $selectAttributes = [],
-         array $optionsAttributes = [],
-         array $optgroupsAttributes = [],
-		 $validation = []
-     ) {
-		$select  = $this->formBuilder->select($name, $list, $selected, $selectAttributes, $this->addDefaultAttributes($this->addID($name, $options), $validation), $optgroupsAttributes);
+	/**
+     * Create a select box field.
+     *
+     * @param  string $name
+     * @param  array  $list
+     * @param  string $selected
+     * @param  array  $options
+     *
+     * @return string
+     */
+    public function select($name, $list = [], $selected = null, $options = [], $validation = [])
+	{
+		$select  = $this->formBuilder->select($name, $list, $selected, $this->addDefaultAttributes($this->addID($name, $options), $validation));
 		$select .= '<script> $("#'.$name.'").select2(); </script>';
 		return $select;
 	}
+
+	protected function extractName($name_)
+	{
+		$name = $name_;
+		$label = $name;
+		if(is_array($name_))
+		{
+			$name = $name_[0];
+			$label = $name_[1];
+		}
+		return $name;
+	}
+
+	protected function capsulateCheckable($input, $name_, $class, $inline = false)
+	{
+		$name = $name_;
+		$label = $name;
+		if(is_array($name_))
+		{
+			$name = $name_[0];
+			$label = $name_[1];
+		}
+
+		$checkable = '';
+		if($inline)
+		{
+			$checkable .= '<label class="'.$class.'-inline">';
+			$checkable .= 		$input;
+			$checkable .= 		$label;
+			$checkable .= '</label>';
+		}
+		else
+		{
+			$checkable .= '<div class="'.$class.'">';
+			$checkable .= 	'<label>';
+			$checkable .= 		$input;
+			$checkable .= 		$label;
+			$checkable .= 	'</label>';
+			$checkable .= '</div>';
+		}
+		return $checkable;
+	}
+
+	/**
+     * Create a checkbox input field.
+     *
+     * @param  mixed $name
+     * @param  mixed  $value
+     * @param  bool   $checked
+     * @param  array  $options
+     *
+     * @return string
+     */
+    public function checkbox($name_, $value = 1, $checked = null, $options = [], $inline = false)
+    {
+		return $this->capsulateCheckable(
+			$this->formBuilder->checkbox($this->extractName($name_), $value, $checked, $options),
+			$name_,
+			'checkbox',
+			$inline
+		);
+    }
+
+    /**
+     * Create a radio button input field.
+     *
+     * @param  mixed $name
+     * @param  mixed  $value
+     * @param  bool   $checked
+     * @param  array  $options
+     *
+     * @return string
+     */
+    public function radio($name_, $value = null, $checked = null, $options = [], $inline = false)
+    {
+		return $this->capsulateCheckable(
+			$this->formBuilder->radio($this->extractName($name_), $value, $checked, $options),
+			$name_,
+			'radio',
+			$inline
+		);
+    }
+
+    /**
+     * Create a radio button input field.
+     *
+     * @param  mixed $name
+     * @param  mixed  $value
+     * @param  bool   $checked
+     * @param  array  $options
+     *
+     * @return string
+     */
+    public function radioInline($name_, $value = null, $checked = null, $options = [])
+    {
+		return $this->capsulateCheckable(
+			$this->formBuilder->radio($this->extractName($name_), $value, $checked, $options),
+			$name_,
+			'radio',
+			true
+		);
+    }
 
 	/**
 	 * Magic method untuk meneruskan static call ke \Form
