@@ -12,24 +12,32 @@ class Converter
 			return 0;
 		}
 
-		// check is it string and not numeric?
-		if( ! is_numeric($string))
-		{
-			// double check to make sure that the string contains rp (its mean money string)
-			if (stripos($string, 'Rp') !== FALSE)
-			{
-				if($allow_negative)
-				{
-					return preg_replace('/[^\d-]+/', '', $string);
-				}
-				else
-				{
-					return preg_replace('/[\D]+/', '', $string);
-				}
-			}
-		}
+		// // check is it string and not numeric?
+		// if( ! is_numeric($string))
+		// {
+		// 	// double check to make sure that the string contains rp (its mean money string)
+		// 	if (stripos($string, 'Rp') !== FALSE)
+		// 	{
+		// 		if($allow_negative)
+		// 		{
+		// 			return preg_replace('/[^\d-]+/', '', $string);
+		// 		}
+		// 		else
+		// 		{
+		// 			return preg_replace('/[\D]+/', '', $string);
+		// 		}
+		// 	}
+		// }
 
-		return $string;
+		// return $string;
+		if($allow_negative)
+		{
+			return preg_replace('/[^\d-]+/', '', $string);
+		}
+		else
+		{
+			return preg_replace('/[\D]+/', '', $string);
+		}
 	}
 
 	public function int2money($integer, $with_currency = true)

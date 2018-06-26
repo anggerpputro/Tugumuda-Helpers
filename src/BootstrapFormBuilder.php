@@ -89,11 +89,48 @@ class BootstrapFormBuilder
 	 */
 	public function makeGroup($name, $label, $input, $l_width = 'col-sm-3', $i_width = 'col-sm-7')
 	{
-		$form_group = '<div class="form-group">';
+		$form_group = '<div class="form-group clearfix">';
 		$form_group 	.= $this->label($name, $label, array('class' => $l_width));
 		$form_group 	.= '<div class="'.$i_width.'">';
 		$form_group 		.= $input;
 		$form_group		.= '</div>';
+		$form_group .= '</div>';
+
+		return $form_group;
+	}
+
+	public function makeGroupArr($name, $label, $l_width, $arr_input = [])
+	{
+		// contoh arr_input
+		// $arr_input = [
+		// 	['col-sm-3', $this->text()]
+		// ];
+		$form_group = '<div class="form-group clearfix">';
+		$form_group 	.= $this->label($name, $label, array('class' => $l_width));
+		foreach($arr_input as $item) {
+			$width = $item[0];
+			$input = $item[1];
+
+			$form_group 	.= '<div class="'.$width.'">';
+			$form_group 		.= $input;
+			$form_group		.= '</div>';
+		}
+		$form_group .= '</div>';
+
+		return $form_group;
+	}
+
+	public function makeGroupAdv($arr_input = [])
+	{
+		$form_group = '<div class="form-group clearfix">';
+		foreach($arr_input as $item) {
+			$width = $item[0];
+			$input = $item[1];
+
+			$form_group 	.= '<div class="'.$width.'">';
+			$form_group 		.= $input;
+			$form_group		.= '</div>';
+		}
 		$form_group .= '</div>';
 
 		return $form_group;
@@ -448,6 +485,26 @@ class BootstrapFormBuilder
 			$name_,
 			'radio',
 			$inline
+		);
+    }
+
+    /**
+     * Create a radio button input field.
+     *
+     * @param  mixed $name
+     * @param  mixed  $value
+     * @param  bool   $checked
+     * @param  array  $options
+     *
+     * @return string
+     */
+    public function radioInline($name_, $value = null, $checked = null, $options = [])
+    {
+		return $this->capsulateCheckable(
+			$this->formBuilder->radio($this->extractName($name_), $value, $checked, $options),
+			$name_,
+			'radio',
+			true
 		);
     }
 
