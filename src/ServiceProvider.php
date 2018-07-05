@@ -43,10 +43,12 @@ class ServiceProvider extends BaseServiceProvider
 		$this->registerBootstrapFormBuilder();
 		$this->registerFormatter();
 		$this->registerConverter();
+		$this->registerFpdf();
 
 		$this->app->alias('BSForm', 'Tugumuda\Helpers\BootstrapFormBuilder');
 		$this->app->alias('TMFormatter', 'Tugumuda\Helpers\Formatter');
         $this->app->alias('TMConverter', 'Tugumuda\Helpers\Converter');
+        $this->app->alias('TMFPDF', 'Tugumuda\Helpers\FPDF');
     }
 
 	/**
@@ -57,11 +59,7 @@ class ServiceProvider extends BaseServiceProvider
 	protected function registerBootstrapFormBuilder()
 	{
 		$this->app->singleton('BSForm', function ($app) {
-<<<<<<< HEAD:src/ServiceProvider.php
-            return new BootstrapFormBuilder($app['html'], $app['url'], $app['view'], $app['session.store']->token(), $app['request'], $app['session.store']);
-=======
             return new BootstrapFormBuilder($app['html'], $app['url'], $app['session.store']->getToken(), $app['session.store']);
->>>>>>> 5.1:src/ServiceProvider.php
         });
 	}
 
@@ -90,13 +88,25 @@ class ServiceProvider extends BaseServiceProvider
 	}
 
 	/**
+	 * Register the FPDF instance.
+	 *
+	 * @return void
+	 */
+	protected function registerFpdf()
+	{
+		$this->app->singleton('TMFPDF', function ($app) {
+            return new FPDF();
+        });
+	}
+
+	/**
      * Get the services provided by the provider.
      *
      * @return array
      */
     public function provides()
     {
-        return ['BSForm', 'TMFormatter', 'TMConverter'];
+        return ['BSForm', 'TMFormatter', 'TMConverter', 'TMFPDF'];
     }
 
 }

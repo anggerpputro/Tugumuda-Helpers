@@ -1,5 +1,5 @@
 {
-	"version": "5.1.5",
+	"version": "5.1.6",
     "name": "tugumuda/helpers",
     "description": "Kumpulan laravel helpers",
 	"license": "MIT",
@@ -11,8 +11,9 @@
         }
     ],
 	"require": {
-		"php": "^5.5.9",
-        "laravelcollective/html": "5.1.*"
+		"php": "^5.5.9 || ^7.0",
+		"laravelcollective/html": "5.1.*",
+		"rizalafani/fpdflaravel": "dev-master"
     },
 	"autoload": {
         "psr-4": {
@@ -28,7 +29,8 @@
 			"aliases": {
 				"BSForm": "Tugumuda\\Helpers\\Facades\\BSFormFacade",
 				"TMFormatter": "Tugumuda\\Helpers\\Facades\\FormatterFacade",
-				"TMConverter": "Tugumuda\\Helpers\\Facades\\ConverterFacade"
+				"TMConverter": "Tugumuda\\Helpers\\Facades\\ConverterFacade",
+				"TMFPDF": "Tugumuda\\Helpers\\Facades\\FPDFFacade"
 			}
 		}
 	},
