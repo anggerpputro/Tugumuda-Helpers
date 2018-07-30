@@ -399,10 +399,12 @@ class BootstrapFormBuilder
      *
      * @return string
      */
-    public function select($name, $list = [], $selected = null, $options = [], $validation = [])
+    public function select($name, $list = [], $selected = null, $options = [], $validation = [], $add_script = true)
 	{
 		$select  = $this->formBuilder->select($name, $list, $selected, $this->addDefaultAttributes($this->addID($name, $options), $validation));
-		$select .= '<script> $("#'.$name.'").select2(); </script>';
+		if($add_script) {
+			$select .= '<script> $("#'.$name.'").select2(); </script>';
+		}
 		return $select;
 	}
 
